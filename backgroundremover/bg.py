@@ -1,5 +1,6 @@
 import io
 import os
+import time
 import typing
 from PIL import Image
 from pymatting.alpha.estimate_alpha_cf import estimate_alpha_cf
@@ -12,8 +13,8 @@ import torch
 import torch.nn.functional
 import torch.nn.functional
 from hsh.library.hash import Hasher
-from .u2net import detect, u2net
-from . import utilities
+from u2net import detect, u2net
+import utilities
 
 DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -41,7 +42,7 @@ class Net(torch.nn.Module):
             net = u2net.U2NETP(3, 1)
             path = os.environ.get(
                 "U2NETP_PATH",
-                os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
+                os.path.expanduser(os.path.join("/tmp/", ".u2net", model_name + ".pth")),
             )
             if (
                 not os.path.exists(path)
@@ -55,13 +56,13 @@ class Net(torch.nn.Module):
             net = u2net.U2NET(3, 1)
             path = os.environ.get(
                 "U2NET_PATH",
-                os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
+                os.path.expanduser(os.path.join("/tmp", ".u2net", model_name + ".pth")),
             )
             if (
                 not os.path.exists(path)
                 or hasher.md5(path) != "09fb4e49b7f785c9f855baf94916840a"
             ):
-                utilities.download_downloadfiles_from_github(
+                utilities.download_files_from_github(
                     path, model_name
                 )
 
@@ -69,7 +70,7 @@ class Net(torch.nn.Module):
             net = u2net.U2NET(3, 1)
             path = os.environ.get(
                 "U2NET_PATH",
-                os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
+                os.path.expanduser(os.path.join("/tmp", ".u2net", model_name + ".pth")),
             )
             if (
                 not os.path.exists(path)

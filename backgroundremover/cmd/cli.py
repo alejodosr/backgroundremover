@@ -1,8 +1,8 @@
 import argparse
 import os
 from distutils.util import strtobool
-from .. import utilities
-from ..bg import remove
+import utilities
+from bg import remove
 
 
 def main():
@@ -109,6 +109,15 @@ def main():
         type=lambda x: bool(strtobool(x)),
         help="Output transparent video format mov",
     )
+    ap.add_argument(
+        "-gv",
+        "--greenvideo",
+        nargs="?",
+        const=True,
+        default=False,
+        type=lambda x: bool(strtobool(x)),
+        help="Output transparent video format mov",
+    )
 
     ap.add_argument(
         "-tov",
@@ -194,6 +203,13 @@ def main():
                                 framerate=args.framerate)
         elif args.transparentvideo:
             utilities.transparentvideo(os.path.abspath(args.output.name), os.path.abspath(args.input.name),
+                                       worker_nodes=args.workernodes,
+                                       gpu_batchsize=args.gpubatchsize,
+                                       model_name=args.model,
+                                       frame_limit=args.framelimit,
+                                       framerate=args.framerate)
+        elif args.greenvideo:
+            utilities.greenvideo(os.path.abspath(args.output.name), os.path.abspath(args.input.name),
                                        worker_nodes=args.workernodes,
                                        gpu_batchsize=args.gpubatchsize,
                                        model_name=args.model,

@@ -7,8 +7,8 @@ from hsh.library.hash import Hasher
 from PIL import Image
 from torchvision import transforms
 
-from . import data_loader, u2net
-from .. import utilities
+from u2net import data_loader, u2net
+import utilities
 
 def load_model(model_name: str = "u2net"):
     hasher = Hasher()
